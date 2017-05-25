@@ -1,0 +1,86 @@
+\documentclass [fontsize=14pt, paper=a4, pagesize, DIV=calc]%
+{scrreprt}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+\begin{document}
+
+\begin{titlepage}
+
+\centering
+
+\vfill
+
+МИНИСТЕРСТВО~ОБРАЗОВАНИЯ~И~НАУКИ~РФ
+
+\vfill
+
+Федеральное государственное автономное образовательное\\
+учреждение высшего образования\\
+ЮЖНЫЙ~ФЕДЕРАЛЬНЫЙ~УНИВЕРСИТЕТ
+
+\vfill
+
+Институт математики, механики и компьютерных наук\\
+имени И.~И.~Воровича
+
+\vfill
+
+Направление подготовки Фундаментальная информатика\\
+и информационные технологии
+
+\vfill
+
+\textsf
+{МОДИФИКАЦИЯ МЕХАНИЗМА ОБРАБОТКИ ОТРИЦАТЕЛЬНЫХ ЛИТЕРАЛОВ В КОМПИЛЯТОРЕ GHC}
+
+\vfill
+
+Курсовая работа
+
+\raggedleft
+
+\vfill
+
+Студента 3 курса\\
+Д.~Ш.~Мирзоева
+
+\vfill
+
+Научный руководитель:\\
+Старший преподаватель кафедры информатики и вычислительного эксперимента
+Мехмата ЮФУ В.~Н.~Брагилевский
+
+\end{titlepage}
+
+
+\tableofcontents
+
+\input{introduction.tex}
+
+\input{haskell-literals.tex}
+
+\input{negative-literals.tex}
+
+\input{issue.tex}
+
+\begin{thebibliography}{9}
+
+\bibitem{cs-encyclopedia}
+Harry Henderson,
+\emph{Encyclopedia of computer science and technology},
+2003
+
+\bibitem{haskell2010}
+Simon Marlow(editor),
+\emph{Haskell 2010 Language Report}
+
+\end{thebibliography}
+
+\end{document}
