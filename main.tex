@@ -1,5 +1,4 @@
-\documentclass [fontsize=14pt, paper=a4, pagesize, DIV=calc]%
-{scrreprt}
+\documentclass[fontsize=14pt, paper=a4, pagesize, DIV=calc]{scrartcl}
 
 \usepackage[T2A]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -8,6 +7,22 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{paratype}
+\usepackage{setspace}
+
+\lstset{
+    language=Haskell,
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    showstringspaces=false
+    inputencoding=utf8x
+}
+
+\onehalfspacing
+
+\floatstyle{ruled}
+\floatname{ListingEnv}{Листинг}
+\newfloat{ListingEnv}{htbp}{lol}[section]
 
 \begin{document}
 
@@ -44,6 +59,8 @@
 
 Курсовая работа
 
+\vspace{1cm}
+
 \raggedleft
 
 \vfill
@@ -57,12 +74,32 @@
 Старший преподаватель кафедры информатики и вычислительного эксперимента
 Мехмата ЮФУ В.~Н.~Брагилевский
 
-\end{titlepage}
+\vfill
 
+\raggedright
+
+\noindent\begin{tabular}{ll}
+\makebox[2.5in]{\hrulefill} & \makebox[2.5in]{\hrulefill}\\
+оценка(рейтинг) & подпись руководителя\\
+\end{tabular}
+
+\vfill
+
+\centering
+
+Ростов-на-Дону
+
+2017
+
+\end{titlepage}
 
 \tableofcontents
 
+\clearpage
+
 \input{introduction.tex}
+
+\clearpage
 
 \input{haskell-literals.tex}
 
@@ -70,12 +107,10 @@
 
 \input{issue.tex}
 
-\begin{thebibliography}{9}
+\clearpage
 
-\bibitem{cs-encyclopedia}
-Harry Henderson,
-\emph{Encyclopedia of computer science and technology},
-2003
+\addcontentsline{toc}{subsection}{Библиография}
+\begin{thebibliography}{9}
 
 \bibitem{haskell2010}
 Simon Marlow(editor),
