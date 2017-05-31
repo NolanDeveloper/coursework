@@ -1,3 +1,67 @@
 \section{Расширение NegativeLiterals}
 
+\subsection{Описание}
 
+Для решения проблем связанных с первыми двумя особенностями было создано
+расширение NegativeLiterals. Оно добавляет в язык отрицательные литералы.
+Чтобы использовать это расширение, необходимо либо добавить флаг компиляции
+\texttt{-XNegativeLiterals}, либо добавить в начало файла с кодом программы
+строку\\
+\texttt{\{-\#\ LANGUAGE\ NegativeLiterals\ \#-\}}
+
+\begin{ListingEnv}[H]
+\begin{lstlisting}
+$ ghci -XNegativeLiterals
+GHCi, version 7.10.3: http://www.haskell.org/ghc/  :? for help
+Prelude> print -1
+-1
+Prelude> import Data.Int
+Prelude Data.Int> print (-128::Int8)
+-128
+\end{lstlisting}
+\caption{Демонстрация NegativeLiterals}
+\end{ListingEnv}
+
+\subsection{Реализация}
+
+Расширение модифицирует работу лексического анализатора. В его описание
+добавляется несколько новых правил.
+
+\begin{ListingEnv}[H]
+\begin{verbatim}
+@negative @decimal -- Регулярное выражение
+    / { ifExtension negativeLiteralsEnabled } -- Условие
+    { tok_num negative 1 1 decimal } -- Генератор лексемы
+@negative 0[bB] @binary
+    / { ifExtension negativeLiteralsEnabled `alexAndPred`
+        ifExtension binaryLiteralsEnabled }
+    { tok_num negative 3 3 binary }
+@negative 0[oO] @octal
+    / { ifExtension negativeLiteralsEnabled }
+    { tok_num negative 3 3 octal }
+@negative 0[xX] @hexadecimal
+    / { ifExtension negativeLiteralsEnabled }
+    { tok_num negative 3 3 hexadecimal }
+...
+@negative @floating_point
+    / { ifExtension negativeLiteralsEnabled }
+    { strtoken tok_float }
+\end{verbatim}
+\caption{Правила работы лексического анализатора, связанные с расширением
+NegativeLiterals}
+\label{lst:rules}
+\end{ListingEnv}
+
+Лексический анализатор компилятора GHC генерируется с помощью инструмента
+Alex. В листинге \ref{lst:rules} приведены несполько правил, использующих
+его синтаксис.
+
+Каждое правило состоит из нескольких частей. Первая часть --- это регулярное
+выражение, описывающее лексему. Здесь могут быть использованы макро
+определения, то есть предварительно определённые регулярные выражения.  В
+листинге \ref{lst:rules} такими макро определениями являются
+\texttt{@negative}, \texttt{@decimal}, \texttt{@binary} и другие. Вторая часть
+--- это контекст, в котором это правило может применяться. В приведённом
+фрагменте проверяется включено ли расширение NegativeLiterals. Третья часть ---
+это код на языке Хаскель, который создаёт объект лексемы на основе
+последовательности символов, ей соответствующей.
